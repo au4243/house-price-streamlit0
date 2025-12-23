@@ -45,19 +45,19 @@ class HousePricePredictor:
         self.model = joblib.load(model_path)
         #self.model_features = joblib.load(feature_path)
 
-import os
-import joblib
-import streamlit as st
+    import os
+    import joblib
+    import streamlit as st
 
-# 假設這是在 HousePricePredictor 的 __init__ 內
-feature_path = os.path.join(os.path.dirname(__file__), "model_features.pkl")
+        # 假設這是在 HousePricePredictor 的 __init__ 內
+        feature_path = os.path.join(os.path.dirname(__file__), "model_features.pkl")
 
-if not os.path.exists(feature_path):
-    st.error(f"模型特徵檔案不存在：{feature_path}，請確認檔案已放置正確位置。")
-    # 可以選擇中止程式，避免後續錯誤
-    raise FileNotFoundError(f"模型特徵檔案不存在：{feature_path}")
+        if not os.path.exists(feature_path):
+        st.error(f"模型特徵檔案不存在：{feature_path}，請確認檔案已放置正確位置。")
+        # 可以選擇中止程式，避免後續錯誤
+        raise FileNotFoundError(f"模型特徵檔案不存在：{feature_path}")
 
-self.model_features = joblib.load(feature_path)
+        self.model_features = joblib.load(feature_path)
 
 
 
@@ -322,4 +322,5 @@ if __name__ == "__main__":
     print(predictor.predict(case1))
     print(predictor.predict(case2))
     print(predictor.predict(case3))
+
 

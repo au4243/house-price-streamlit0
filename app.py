@@ -1,4 +1,42 @@
 import streamlit as st
+from predict import HousePricePredictor
+
+st.set_page_config(page_title="房價估價系統", layout="wide")
+
+st.title("房價估價系統")
+
+# 安全初始化
+try:
+    predictor = HousePricePredictor()
+except FileNotFoundError:
+    st.stop()  # 如果模型檔不存在，就停止 Streamlit
+
+# 範例：使用者輸入
+st.header("輸入房屋特徵")
+# 假設有幾個簡單欄位
+area = st.number_input("坪數", min_value=1)
+floor = st.number_input("樓層", min_value=1)
+X_input = {
+    "area": [area],
+    "floor": [floor]
+}
+
+import pandas as pd
+X_df = pd.DataFrame(X_input)
+
+if st.button("預測房價"):
+    try:
+        pred = predictor.predict(X_df)
+        st.success(f"預測房價：{pred[0]:.2f} 萬")
+    except Exception as e:
+        st.error(f"預測失敗: {e}")
+
+
+
+
+
+
+import streamlit as st
 import os
 import json
 
@@ -590,4 +628,5 @@ if st.button("🚀 開始估價"):
             f,
             file_name="prediction.json",
         )
+
 

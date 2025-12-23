@@ -1,5 +1,5 @@
 import streamlit as st
-from predict import HousePricePredictor
+from prediction import HousePricePredictor
 
 st.set_page_config(page_title="房價估價系統", layout="wide")
 
@@ -475,11 +475,14 @@ CITY_TOWN_MAP = {
 # =========================
 # 載入模型（快取）
 # =========================
+
 @st.cache_resource
 def load_predictor():
-    return HousePricePredictor()
-
-predictor = load_predictor()
+    try:
+        return HousePricePredictor()
+    except Exception as e:
+        st.error(str(e))
+        st.stop()
 
 # =========================
 # 側邊欄輸入
@@ -628,5 +631,6 @@ if st.button("🚀 開始估價"):
             f,
             file_name="prediction.json",
         )
+
 
 

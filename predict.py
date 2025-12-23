@@ -45,21 +45,33 @@ class HousePricePredictor:
         self.model = joblib.load(model_path)
         #self.model_features = joblib.load(feature_path)
 
-    import os
-    import joblib
-    import streamlit as st
+import os
+import joblib
+import streamlit as st
 
-        # 假設這是在 HousePricePredictor 的 __init__ 內
+class HousePricePredictor:
+    def __init__(self):
+        # 使用 __file__ 確保路徑正確
         feature_path = os.path.join(os.path.dirname(__file__), "model_features.pkl")
+        model_path = os.path.join(os.path.dirname(__file__), "house_price_model.pkl")
 
+        # 檢查檔案是否存在
         if not os.path.exists(feature_path):
-        st.error(f"模型特徵檔案不存在：{feature_path}，請確認檔案已放置正確位置。")
-        # 可以選擇中止程式，避免後續錯誤
-        raise FileNotFoundError(f"模型特徵檔案不存在：{feature_path}")
+            st.error(f"模型特徵檔案不存在：{feature_path}")
+            raise FileNotFoundError(f"模型特徵檔案不存在：{feature_path}")
 
+        if not os.path.exists(model_path):
+            st.error(f"房價模型檔案不存在：{model_path}")
+            raise FileNotFoundError(f"房價模型檔案不存在：{model_path}")
+
+        # 載入模型特徵與模型
         self.model_features = joblib.load(feature_path)
+        self.model = joblib.load(model_path)
 
-
+    def predict(self, X):
+        # 確保輸入欄位對齊
+        X_aligned = X.reindex(columns=self.model_features, fill_value=0)
+        return self.model.predict(X_aligned)
 
         
         # SHAP explainer
@@ -322,5 +334,6 @@ if __name__ == "__main__":
     print(predictor.predict(case1))
     print(predictor.predict(case2))
     print(predictor.predict(case3))
+
 
 

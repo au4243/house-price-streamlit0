@@ -1,8 +1,8 @@
-streamlit
-pandas
-numpy
-scikit-learn
-xgboost
-shap
-joblib
-matplotlib
+streamlit>=1.28
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.2
+xgboost>=1.7
+shap>=0.41
+joblib>=1.2
+matplotlib>=3.7
